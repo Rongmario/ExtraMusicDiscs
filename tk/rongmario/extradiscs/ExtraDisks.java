@@ -58,7 +58,7 @@ public class ExtraDisks
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
-        recordDubstep1 = (new ItemEDRecord(recordDubstep1ID, ASSETS + "dubstep1", "DUBSTEP")).setRecordArtist("Some Dude").setTextureName(ASSETS + "record_dubstep1");
+        recordDubstep1 = (new ItemEDRecord(recordDubstep1ID, ASSETS + "dubstep1", "Double the Trouble")).setRecordArtist("3dNOW").setTextureName(ASSETS + "record_dubstep1");
 
         // Register sound handler
         MinecraftForge.EVENT_BUS.register(new SoundHandler());
