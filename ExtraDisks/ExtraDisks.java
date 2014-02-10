@@ -1,6 +1,6 @@
 package ExtraDisks;
 
-import net.minecraft,creativetab.CreativeTabs;
+import net.minecraft.creativetab.CreativeTabs;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.EventHandler;
 import cpw.mods.fml.common.Instance;
