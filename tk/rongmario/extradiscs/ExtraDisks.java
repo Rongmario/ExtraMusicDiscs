@@ -1,4 +1,4 @@
-package tk.rongmario.extradisks;
+package tk.rongmario.extradiscs;
 
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.registry.LanguageRegistry;

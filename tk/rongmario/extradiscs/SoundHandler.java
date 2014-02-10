@@ -1,4 +1,4 @@
-package tk.rongmario.extradisks;
+package tk.rongmario.extradiscs;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
