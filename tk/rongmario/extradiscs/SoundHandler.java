@@ -13,10 +13,18 @@ public class SoundHandler
     public void onSoundsLoaded(SoundLoadEvent event)
     {
         SoundManager manager = event.manager;
-        manager.addStreaming(ExtraDiscs.ASSETS + "dubstep1.ogg");
-        manager.addStreaming(ExtraDiscs.ASSETS + "classical1.ogg");
-        manager.addStreaming(ExtraDiscs.ASSETS + "nightowl.ogg");
-        manager.addStreaming(ExtraDiscs.ASSETS + "eclosion.ogg");
-        manager.addStreaming(ExtraDiscs.ASSETS + "chiptune1.ogg");
+        addOggToStreaming(manager, "dubstep1");
+        addOggToStreaming(manager, "classical1");
+        addOggToStreaming(manager, "nightowl");
+        addOggToStreaming(manager, "eclosion");
+        addOggToStreaming(manager, "chiptune1");
+        addOggToStreaming(manager, "zabriskie1");
+        addOggToStreaming(manager, "zabriskie2");
+        addOggToStreaming(manager, "rvegners");
+    }
+
+    private void addOggToStreaming(SoundManager manager, String fileName)
+    {
+        manager.addStreaming(ExtraDiscs.ASSETS + fileName + ".ogg");
     }
 }
