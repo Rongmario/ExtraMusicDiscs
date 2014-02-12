@@ -15,5 +15,8 @@ public class SoundHandler
         SoundManager manager = event.manager;
         manager.addStreaming(ExtraDiscs.ASSETS + "dubstep1.ogg");
         manager.addStreaming(ExtraDiscs.ASSETS + "classical1.ogg");
+        manager.addStreaming(ExtraDiscs.ASSETS + "nightowl.ogg");
+        manager.addStreaming(ExtraDiscs.ASSETS + "eclosion.ogg");
+        manager.addStreaming(ExtraDiscs.ASSETS + "chiptune1.ogg");
     }
 }
