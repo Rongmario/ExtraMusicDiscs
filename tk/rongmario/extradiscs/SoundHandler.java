@@ -14,5 +14,6 @@ public class SoundHandler
     {
         SoundManager manager = event.manager;
         manager.addStreaming(ExtraDiscs.ASSETS + "dubstep1.ogg");
+        manager.addStreaming(ExtraDiscs.ASSETS + "classical1.ogg");
     }
 }
