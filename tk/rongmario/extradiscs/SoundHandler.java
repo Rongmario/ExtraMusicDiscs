@@ -13,6 +13,6 @@ public class SoundHandler
     public void onSoundsLoaded(SoundLoadEvent event)
     {
         SoundManager manager = event.manager;
-        manager.addStreaming(ExtraDisks.ASSETS + "dubstep1.ogg");
+        manager.addStreaming(ExtraDiscs.ASSETS + "dubstep1.ogg");
     }
 }

@@ -13,7 +13,7 @@ public class ItemEDRecord extends ItemRecord
     {
         super(id, sound);
         this.setUnlocalizedName("record");
-        this.setCreativeTab(ExtraDisks.tabED);
+        this.setCreativeTab(ExtraDiscs.tabED);
         this.recordDisplayName = name;
     }
 
