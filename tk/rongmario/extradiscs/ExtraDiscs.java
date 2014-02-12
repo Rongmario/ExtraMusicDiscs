@@ -65,7 +65,8 @@ public class ExtraDiscs
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
-    {
+    {   
+	    
         recordDubstep1 = (new ItemEDRecord(recordDubstep1ID, ASSETS + "dubstep1", "Double the Trouble")).setRecordArtist("3dNOW").setTextureName(ASSETS + "record_dubstep1");
         recordClassical1 = (new ItemEDRecord(recordClassical1ID, ASSETS + "classical1", "K. 525, Allegro")).setRecordArtist("W. A. Mozart").setTextureName(ASSETS + "record_classical1");
         recordNightOwl = (new ItemEDRecord(recordNightOwlID, ASSETS + "nightowl", "Night Owl")).setRecordArtist("Broke For Free").setTextureName(ASSETS + "record_nightowl");
@@ -79,7 +80,16 @@ public class ExtraDiscs
 
         // Add in-game localization for tabED
         LanguageRegistry.instance().addStringLocalization("itemGroup." + MODID, NAME);
-    }
+		
+		//Generate Discs to different chests (Thanks Domi!)
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(Items.ItemEDRecord.itemID, 1, 0), 1, 1, 31);
+        ChestGenHooks.addItem("dungeonChest", item);
+		ChestGenHooks.addItem("strongholdCorridor", item);
+		ChestGenHooks.addItem("strongholdCrossing", item);
+        ChestGenHooks.addItem("pyramidDesertyChest", item);
+        ChestGenHooks.addItem("pyramidJungleChest", item);
+        ChestGenHooks.addItem("villageBlacksmith", item);
+	}
 
     private int getNextItemID(Configuration config, String label)
     {
