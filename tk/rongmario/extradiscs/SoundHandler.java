@@ -22,6 +22,7 @@ public class SoundHandler
         addOggToStreaming(manager, "zabriskie2");
         addOggToStreaming(manager, "rvegners");
 		addOggToStreaming(manager, "goobypls");
+		addOggToStreaming(manager, "chiptune2");
     }
 
     private void addOggToStreaming(SoundManager manager, String fileName)
