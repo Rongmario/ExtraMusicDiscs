@@ -1,19 +1,21 @@
 package tk.rongmario.extradiscs;
 
-import cpw.mods.fml.common.ModMetadata;
-import cpw.mods.fml.common.registry.LanguageRegistry;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import java.util.Arrays;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandomChestContent;
+import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.ChestGenHooks;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
-import net.minecraft.item.Item;
-import net.minecraftforge.common.Configuration;
-import net.minecraftforge.common.MinecraftForge;
-
-import java.util.Arrays;
+import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = ExtraDiscs.MODID, name = ExtraDiscs.NAME, version = ExtraDiscs.VERSION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
@@ -72,12 +74,8 @@ public class ExtraDiscs
     }
 
     @Mod.EventHandler
-    public void init(FMLInitializationEvent event)
-    {   
-	    LogHelper.log(Level.FINEST, "Gooby Plez!");
-        LogHelper.log(Level.FINER, "And PONIES.");
-		
-        recordDubstep1 = (new ItemEDRecord(recordDubstep1ID, ASSETS + "dubstep1", "Double the Trouble")).setRecordArtist("3dNOW").setTextureName(ASSETS + "record_dubstep1");
+    public void init(FMLInitializationEvent event)   {   
+		recordDubstep1 = (new ItemEDRecord(recordDubstep1ID, ASSETS + "dubstep1", "Double the Trouble")).setRecordArtist("3dNOW").setTextureName(ASSETS + "record_dubstep1");
 		recordDubstep2 = (new ItemEDRecord(recordDubstep2ID, ASSETS + "dubstep2", "Avast your Ass")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep2");
 		recordDubstep3 = (new ItemEDRecord(recordDubstep3ID, ASSETS + "dubstep3", "Rainbow Tylenol")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep3");
 		recordDubstep4 = (new ItemEDRecord(recordDubstep4ID, ASSETS + "dubstep4", "Rock your Emotions")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep4");
@@ -86,7 +84,7 @@ public class ExtraDiscs
         recordNightOwl = (new ItemEDRecord(recordNightOwlID, ASSETS + "nightowl", "Night Owl")).setRecordArtist("Broke For Free").setTextureName(ASSETS + "record_nightowl");
         recordEclosion = (new ItemEDRecord(recordEclosionID, ASSETS + "eclosion", "Eclosion")).setRecordArtist("Salmo").setTextureName(ASSETS + "record_eclosion");
         recordChiptune1 = (new ItemEDRecord(recordChiptune1ID, ASSETS + "chiptune1", "A Ninja Among Oscillators")).setRecordArtist("Rolemusic").setTextureName(ASSETS + "record_chiptune1");
-		recordChiptune2 = (new ItemEDRecord(recordChiptune2, ASSETS + "chiptune2", "Happy Chiptunes")).setRecordArtist("Soniau").setTextureName(ASSETS + "record_chiptune2");
+		recordChiptune2 = (new ItemEDRecord(recordChiptune2ID, ASSETS + "chiptune2", "Happy Chiptunes")).setRecordArtist("Soniau").setTextureName(ASSETS + "record_chiptune2");
         recordZabriskie1 = (new ItemEDRecord(recordZabriskie1ID, ASSETS + "zabriskie1", "The Temperature of the Air on the Bow of the Kaleetan")).setRecordArtist("Chris Zabriskie").setTextureName(ASSETS + "record_zabriskie1");
         recordZabriskie2 = (new ItemEDRecord(recordZabriskie2ID, ASSETS + "zabriskie2", "That Kid in Fourth Grade Who Really Liked the Denver Broncos")).setRecordArtist("Chris Zabriskie").setTextureName(ASSETS + "record_zabriskie2");
         recordRVegners = (new ItemEDRecord(recordRVegnersID, ASSETS + "rvegners", "Rolands Vegners")).setRecordArtist("Ergo Phizmiz & Margita Zalite").setTextureName(ASSETS + "record_rvegners");
@@ -98,8 +96,8 @@ public class ExtraDiscs
         // Add in-game localization for tabED
         LanguageRegistry.instance().addStringLocalization("itemGroup." + MODID, NAME);
 	
-	//TODO: Fix Rongmario code (the new Arona code)(Lelfish INDENT FFS)
-	WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(Items.ItemEDRecord.itemID, 1, 0), 1, 1, 31);
+	//Rongmario Fixed his code himself :O (Thanks MineMaarten!)
+	    WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordDubstep1.itemID, 1, 0), 1, 8, 15);
         ChestGenHooks.addItem("dungeonChest", item);
 	    ChestGenHooks.addItem("strongholdCorridor", item);
 	    ChestGenHooks.addItem("strongholdCrossing", item);
