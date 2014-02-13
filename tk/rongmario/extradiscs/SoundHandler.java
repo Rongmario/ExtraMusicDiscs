@@ -14,6 +14,10 @@ public class SoundHandler
     {
         SoundManager manager = event.manager;
         addOggToStreaming(manager, "dubstep1");
+		addOggToStreaming(manager, "dubstep2");
+		addOggToStreaming(manager, "dubstep3");
+		addOggToStreaming(manager, "dubstep4");
+		addOggToStreaming(manager, "dubstep5");
         addOggToStreaming(manager, "classical1");
         addOggToStreaming(manager, "nightowl");
         addOggToStreaming(manager, "eclosion");

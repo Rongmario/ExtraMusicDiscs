@@ -38,8 +38,8 @@ public class ExtraDiscs
 
     private int nextItemID = 22256;
 
-    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1;
-    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1;
+    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID, recordDubstep3ID, recordDubstep4ID, recordDubstep5ID;
+    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordDubstep3, recordDubstep4, recordDubstep5;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -53,6 +53,10 @@ public class ExtraDiscs
 
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
         recordDubstep1ID = getNextItemID(config, "recordDubstep1ID");
+		recordDubstep2ID = getNextItemID(config, "recordDubstep2ID");
+		recordDubstep3ID = getNextItemID(config, "recordDubstep3ID");
+		recordDubstep4ID = getNextItemID(config, "recordDubstep4ID");
+		recordDubstep5ID = getNextItemID(config, "recordDubstep5ID");
         recordClassical1ID = getNextItemID(config, "recordClassical1ID");
         recordNightOwlID = getNextItemID(config, "recordNightOwlID");
         recordEclosionID = getNextItemID(config, "recordEclosionID");
@@ -62,7 +66,8 @@ public class ExtraDiscs
         recordZabriskie2ID = getNextItemID(config, "recordZabriskie2ID");
         recordRVegnersID = getNextItemID(config, "recordRVegnersID");
 		recordGoobyPlsID = getNextItemID(config, "recordGoobyplsID");
-		recordPony1ID = getNextItemID(config, "recordPony1ID");s
+		recordPony1ID = getNextItemID(config, "recordPony1ID");
+		
 		
     }
 
@@ -71,6 +76,10 @@ public class ExtraDiscs
     {   
 	    
         recordDubstep1 = (new ItemEDRecord(recordDubstep1ID, ASSETS + "dubstep1", "Double the Trouble")).setRecordArtist("3dNOW").setTextureName(ASSETS + "record_dubstep1");
+		recordDubstep2 = (new ItemEDRecord(recordDubstep2ID, ASSETS + "dubstep2", "Avast your Ass")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep2");
+		recordDubstep3 = (new ItemEDRecord(recordDubstep3ID, ASSETS + "dubstep3", "Rainbow Tylenol")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep3");
+		recordDubstep4 = (new ItemEDRecord(recordDubstep4ID, ASSETS + "dubstep4", "Rock your Emotions")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep4");
+		recordDubstep5 = (new ItemEDRecord(recordDubstep5ID, ASSETS + "dubstep5", "Rock your Emotions 8Bit")).setRecordArtist("SestCH & Kitsune^2").setTextureName(ASSETS + "record_dubstep5");
         recordClassical1 = (new ItemEDRecord(recordClassical1ID, ASSETS + "classical1", "K. 525, Allegro")).setRecordArtist("W. A. Mozart").setTextureName(ASSETS + "record_classical1");
         recordNightOwl = (new ItemEDRecord(recordNightOwlID, ASSETS + "nightowl", "Night Owl")).setRecordArtist("Broke For Free").setTextureName(ASSETS + "record_nightowl");
         recordEclosion = (new ItemEDRecord(recordEclosionID, ASSETS + "eclosion", "Eclosion")).setRecordArtist("Salmo").setTextureName(ASSETS + "record_eclosion");
@@ -87,7 +96,7 @@ public class ExtraDiscs
         // Add in-game localization for tabED
         LanguageRegistry.instance().addStringLocalization("itemGroup." + MODID, NAME);
 	
-	//TODO: Fix Rongmario code (the new Arona code)(Lelfish)(INDENT FFS)
+	//TODO: Fix Rongmario code (the new Arona code)(Lelfish INDENT FFS)
 	WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(Items.ItemEDRecord.itemID, 1, 0), 1, 1, 31);
         ChestGenHooks.addItem("dungeonChest", item);
 	    ChestGenHooks.addItem("strongholdCorridor", item);
