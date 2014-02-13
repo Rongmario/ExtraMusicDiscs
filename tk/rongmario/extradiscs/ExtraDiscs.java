@@ -74,7 +74,9 @@ public class ExtraDiscs
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {   
-	    
+	    LogHelper.log(Level.FINEST, "Gooby Plez!");
+        LogHelper.log(Level.FINER, "And PONIES.");
+		
         recordDubstep1 = (new ItemEDRecord(recordDubstep1ID, ASSETS + "dubstep1", "Double the Trouble")).setRecordArtist("3dNOW").setTextureName(ASSETS + "record_dubstep1");
 		recordDubstep2 = (new ItemEDRecord(recordDubstep2ID, ASSETS + "dubstep2", "Avast your Ass")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep2");
 		recordDubstep3 = (new ItemEDRecord(recordDubstep3ID, ASSETS + "dubstep3", "Rainbow Tylenol")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep3");
