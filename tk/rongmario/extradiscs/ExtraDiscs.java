@@ -38,8 +38,8 @@ public class ExtraDiscs
 
     private int nextItemID = 22256;
 
-    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID;
-    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2;
+    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1;
+    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -57,11 +57,12 @@ public class ExtraDiscs
         recordNightOwlID = getNextItemID(config, "recordNightOwlID");
         recordEclosionID = getNextItemID(config, "recordEclosionID");
         recordChiptune1ID = getNextItemID(config, "recordChiptune1ID");
+		recordChiptune2ID = getNextItemID(config, "recordChiptune2ID");
         recordZabriskie1ID = getNextItemID(config, "recordZabriskie1ID");
         recordZabriskie2ID = getNextItemID(config, "recordZabriskie2ID");
         recordRVegnersID = getNextItemID(config, "recordRVegnersID");
 		recordGoobyPlsID = getNextItemID(config, "recordGoobyplsID");
-		recordChiptune2ID = getNextItemID(config, "recordChiptune2ID");
+		recordPony1ID = getNextItemID(config, "recordPony1ID");s
 		
     }
 
@@ -74,11 +75,12 @@ public class ExtraDiscs
         recordNightOwl = (new ItemEDRecord(recordNightOwlID, ASSETS + "nightowl", "Night Owl")).setRecordArtist("Broke For Free").setTextureName(ASSETS + "record_nightowl");
         recordEclosion = (new ItemEDRecord(recordEclosionID, ASSETS + "eclosion", "Eclosion")).setRecordArtist("Salmo").setTextureName(ASSETS + "record_eclosion");
         recordChiptune1 = (new ItemEDRecord(recordChiptune1ID, ASSETS + "chiptune1", "A Ninja Among Oscillators")).setRecordArtist("Rolemusic").setTextureName(ASSETS + "record_chiptune1");
+		recordChiptune2 = (new ItemEDRecord(recordChiptune2, ASSETS + "chiptune2", "Happy Chiptunes")).setRecordArtist("Soniau").setTextureName(ASSETS + "record_chiptune2");
         recordZabriskie1 = (new ItemEDRecord(recordZabriskie1ID, ASSETS + "zabriskie1", "The Temperature of the Air on the Bow of the Kaleetan")).setRecordArtist("Chris Zabriskie").setTextureName(ASSETS + "record_zabriskie1");
         recordZabriskie2 = (new ItemEDRecord(recordZabriskie2ID, ASSETS + "zabriskie2", "That Kid in Fourth Grade Who Really Liked the Denver Broncos")).setRecordArtist("Chris Zabriskie").setTextureName(ASSETS + "record_zabriskie2");
         recordRVegners = (new ItemEDRecord(recordRVegnersID, ASSETS + "rvegners", "Rolands Vegners")).setRecordArtist("Ergo Phizmiz & Margita Zalite").setTextureName(ASSETS + "record_rvegners");
 		recordGoobyPls = (new ItemEDRecord(recordGoobyPlsID, ASSETS + "goobypls", "Gooby Pls")).setRecordArtist("Sim Gretina").setTextureName(ASSETS + "record_goobypls");
-		recordChiptune2 = (new ItemEDRecord(recordChiptune2, ASSETS + "chiptune2", "Happy Chiptunes")).setRecordArtist("Soniau").setTextureName(ASSETS + "record_chiptune2");
+		recordPony1 = (new ItemEDRecord(recordPony1ID, ASSETS + "pony1", "Love me Cheerilee")).setRecordArtist("The Living Tombstone & Wooden Toaster").setTextureName(ASSETS + "record_pony1");
 
         MinecraftForge.EVENT_BUS.register(new SoundHandler());
 
