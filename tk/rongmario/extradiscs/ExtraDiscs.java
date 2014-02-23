@@ -23,7 +23,7 @@ public class ExtraDiscs
 {
     public static final String MODID = "extradiscs";
     public static final String NAME = "Extra Music Discs";
-    public static final String VERSION = "1.0.0";
+    public static final String VERSION = "1.0.2";
     public static final String ASSETS = MODID + ":";
 
     @Mod.Instance(MODID)
@@ -40,8 +40,8 @@ public class ExtraDiscs
 
     private int nextItemID = 22256;
 
-    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID, recordDubstep3ID, recordDubstep4ID, recordDubstep5ID;
-    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordDubstep3, recordDubstep4, recordDubstep5;
+    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID;
+    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -52,13 +52,12 @@ public class ExtraDiscs
         modMeta.credits = "Music authors, OpenSourceMusic.com, FreeMusicArchive.org, SoundCloud";
         modMeta.description = "Mod that aims to add more music to the world of Minecraft :3";
         modMeta.url = "https://github.com/Rongmario/ExtraMusicDisks";
-
+        
+		//General3214's fail, didn't load and save config file >.<
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+		config.load();
         recordDubstep1ID = getNextItemID(config, "recordDubstep1ID");
 		recordDubstep2ID = getNextItemID(config, "recordDubstep2ID");
-		recordDubstep3ID = getNextItemID(config, "recordDubstep3ID");
-		recordDubstep4ID = getNextItemID(config, "recordDubstep4ID");
-		recordDubstep5ID = getNextItemID(config, "recordDubstep5ID");
         recordClassical1ID = getNextItemID(config, "recordClassical1ID");
         recordNightOwlID = getNextItemID(config, "recordNightOwlID");
         recordEclosionID = getNextItemID(config, "recordEclosionID");
@@ -69,17 +68,15 @@ public class ExtraDiscs
         recordRVegnersID = getNextItemID(config, "recordRVegnersID");
 		recordGoobyPlsID = getNextItemID(config, "recordGoobyplsID");
 		recordPony1ID = getNextItemID(config, "recordPony1ID");
+		config.save();
 		
 		
-    }
+    }   //Will try make users make their own content pack, in 1.7 or 1.8
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)   {   
 		recordDubstep1 = (new ItemEDRecord(recordDubstep1ID, ASSETS + "dubstep1", "Double the Trouble")).setRecordArtist("3dNOW").setTextureName(ASSETS + "record_dubstep1");
-		recordDubstep2 = (new ItemEDRecord(recordDubstep2ID, ASSETS + "dubstep2", "Avast your Ass")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep2");
-		recordDubstep3 = (new ItemEDRecord(recordDubstep3ID, ASSETS + "dubstep3", "Rainbow Tylenol")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep3");
-		recordDubstep4 = (new ItemEDRecord(recordDubstep4ID, ASSETS + "dubstep4", "Rock your Emotions")).setRecordArtist("Kitsune^2").setTextureName(ASSETS + "record_dubstep4");
-		recordDubstep5 = (new ItemEDRecord(recordDubstep5ID, ASSETS + "dubstep5", "Rock your Emotions 8Bit")).setRecordArtist("SestCH & Kitsune^2").setTextureName(ASSETS + "record_dubstep5");
+		recordDubstep2 = (new ItemEDRecord(recordDubstep2ID, ASSETS + "dubstep2", "Rock your Emotions 8Bit")).setRecordArtist("SestCH & Kitsune^2").setTextureName(ASSETS + "record_dubstep2");
         recordClassical1 = (new ItemEDRecord(recordClassical1ID, ASSETS + "classical1", "K. 525, Allegro")).setRecordArtist("W. A. Mozart").setTextureName(ASSETS + "record_classical1");
         recordNightOwl = (new ItemEDRecord(recordNightOwlID, ASSETS + "nightowl", "Night Owl")).setRecordArtist("Broke For Free").setTextureName(ASSETS + "record_nightowl");
         recordEclosion = (new ItemEDRecord(recordEclosionID, ASSETS + "eclosion", "Eclosion")).setRecordArtist("Salmo").setTextureName(ASSETS + "record_eclosion");
@@ -96,7 +93,7 @@ public class ExtraDiscs
         // Add in-game localization for tabED
         LanguageRegistry.instance().addStringLocalization("itemGroup." + MODID, NAME);
 	
-	//Rongmario Fixed his code himself :O (Thanks MineMaarten!)
+	//Rongmario Fixed his code himself :O (Thanks MineMaarten and Domi1819!)
 	    WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordDubstep1.itemID, 1, 0), 1, 8, 15);
         ChestGenHooks.addItem("dungeonChest", item);
 	    ChestGenHooks.addItem("strongholdCorridor", item);
@@ -107,7 +104,7 @@ public class ExtraDiscs
     }
 
     private int getNextItemID(Configuration config, String label)
-    {
+    {   //Did this so the internet ppl doesn't get confused <3
         return config.get("item", label, nextItemID++).getInt() - 256; // Item IDs are automatically added by 256
     }
 }
