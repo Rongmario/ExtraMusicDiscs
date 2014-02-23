@@ -52,6 +52,7 @@ public class ExtraDiscs
         modMeta.credits = "Music authors, OpenSourceMusic.com, FreeMusicArchive.org, SoundCloud";
         modMeta.description = "Mod that aims to add more music to the world of Minecraft :3";
         modMeta.url = "https://github.com/Rongmario/ExtraMusicDisks";
+		modMeta.logoFile = "/assets/extradiscs/textures/logo/logo.png";
         
 		//General3214's fail, didn't load and save config file >.<
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
