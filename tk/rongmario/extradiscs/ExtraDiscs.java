@@ -40,8 +40,8 @@ public class ExtraDiscs
 
     private int nextItemID = 22256;
 
-    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID, recordChiptune3ID;
-    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2. recordChiptune3;
+    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID, recordChiptune3ID, recordEerie1ID;
+    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2. recordChiptune3, recordEerie1;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -90,6 +90,7 @@ public class ExtraDiscs
         recordRVegners = (new ItemEDRecord(recordRVegnersID, ASSETS + "rvegners", "Rolands Vegners")).setRecordArtist("Ergo Phizmiz & Margita Zalite").setTextureName(ASSETS + "record_rvegners");
 		recordGoobyPls = (new ItemEDRecord(recordGoobyPlsID, ASSETS + "goobypls", "Gooby Pls")).setRecordArtist("Sim Gretina").setTextureName(ASSETS + "record_goobypls");
 		recordPony1 = (new ItemEDRecord(recordPony1ID, ASSETS + "pony1", "Love me Cheerilee")).setRecordArtist("The Living Tombstone & Wooden Toaster").setTextureName(ASSETS + "record_pony1");
+		recordEerie1 = (new ItemEDRecord(recordPony1ID, ASSETS + "eerie1", "One-Eyed Maestro")).setRecordArtist("Kevin MacLeod").setTextureName(ASSETS + "record_eerie1");
 
         MinecraftForge.EVENT_BUS.register(new SoundHandler());
 
