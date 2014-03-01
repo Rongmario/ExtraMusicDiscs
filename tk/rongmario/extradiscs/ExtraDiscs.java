@@ -8,6 +8,7 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ChestGenHooks;
+import tk.rongmario.extradiscs.MobDropHandler;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -41,7 +42,7 @@ public class ExtraDiscs
     private int nextItemID = 22256;
 
     public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID, recordChiptune3ID, recordEerie1ID;
-    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2. recordChiptune3, recordEerie1;
+    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordChiptune3, recordEerie1;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -52,7 +53,7 @@ public class ExtraDiscs
         modMeta.credits = "Music authors, OpenSourceMusic.com, FreeMusicArchive.org, SoundCloud";
         modMeta.description = "Mod that aims to add more music to the world of Minecraft :3";
         modMeta.url = "https://github.com/Rongmario/ExtraMusicDisks";
-		modMeta.logoFile = "\assets\extradiscs\textures\logo\logo.png";
+		modMeta.logoFile = "/assets/extradiscs/textures/logo/logo.png";
         
 		//General3214's fail, didn't load and save config file >.<
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -93,25 +94,13 @@ public class ExtraDiscs
 		recordEerie1 = (new ItemEDRecord(recordPony1ID, ASSETS + "eerie1", "One-Eyed Maestro")).setRecordArtist("Kevin MacLeod").setTextureName(ASSETS + "record_eerie1");
 
         MinecraftForge.EVENT_BUS.register(new SoundHandler());
+        MinecraftForge.EVENT_BUS.register(new MobDropHandler());
 
         // Add in-game localization for tabED
         LanguageRegistry.instance().addStringLocalization("itemGroup." + MODID, NAME);
 	
 	//Rongmario Fixed his code himself :O (Thanks MineMaarten and Domi1819!)
 	    WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordDubstep1.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordDubstep2.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordClassical1.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordNightOwl.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordEclosion.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordChiptune1.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordChiptune2.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordChiptune3.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordZabriskie1.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordZabriskie2.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordRVegners.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordGoobyPls.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordpony1.itemID, 1, 0), 1, 8, 15);
-		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordEerie1.itemID, 1, 0), 1, 8, 15);
         ChestGenHooks.addItem("dungeonChest", item);
 	    ChestGenHooks.addItem("strongholdCorridor", item);
 	    ChestGenHooks.addItem("strongholdCrossing", item);
