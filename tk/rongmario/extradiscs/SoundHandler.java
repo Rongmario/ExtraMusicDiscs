@@ -19,12 +19,14 @@ public class SoundHandler
         addOggToStreaming(manager, "nightowl");
         addOggToStreaming(manager, "eclosion");
         addOggToStreaming(manager, "chiptune1");
+		addOggToStreaming(manager, "chiptune2");
+		addOggToStreaming(manager, "chiptune3");
         addOggToStreaming(manager, "zabriskie1");
         addOggToStreaming(manager, "zabriskie2");
         addOggToStreaming(manager, "rvegners");
 		addOggToStreaming(manager, "goobypls");
-		addOggToStreaming(manager, "chiptune2");
 		addOggToStreaming(manager, "pony1");
+		addOggToStreaming(manager, "eerie1");
     }
 
     private void addOggToStreaming(SoundManager manager, String fileName)

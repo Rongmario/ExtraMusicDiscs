@@ -40,8 +40,8 @@ public class ExtraDiscs
 
     private int nextItemID = 22256;
 
-    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID;
-    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2;
+    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID, recordChiptune3ID;
+    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2. recordChiptune3;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
@@ -52,7 +52,7 @@ public class ExtraDiscs
         modMeta.credits = "Music authors, OpenSourceMusic.com, FreeMusicArchive.org, SoundCloud";
         modMeta.description = "Mod that aims to add more music to the world of Minecraft :3";
         modMeta.url = "https://github.com/Rongmario/ExtraMusicDisks";
-		modMeta.logoFile = "/assets/extradiscs/textures/logo/logo.png";
+		modMeta.logoFile = "\assets\extradiscs\textures\logo\logo.png";
         
 		//General3214's fail, didn't load and save config file >.<
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
@@ -64,6 +64,7 @@ public class ExtraDiscs
         recordEclosionID = getNextItemID(config, "recordEclosionID");
         recordChiptune1ID = getNextItemID(config, "recordChiptune1ID");
 		recordChiptune2ID = getNextItemID(config, "recordChiptune2ID");
+		recordChiptune3ID = getNextItemID(config, "recordChiptune3ID");
         recordZabriskie1ID = getNextItemID(config, "recordZabriskie1ID");
         recordZabriskie2ID = getNextItemID(config, "recordZabriskie2ID");
         recordRVegnersID = getNextItemID(config, "recordRVegnersID");
@@ -83,6 +84,7 @@ public class ExtraDiscs
         recordEclosion = (new ItemEDRecord(recordEclosionID, ASSETS + "eclosion", "Eclosion")).setRecordArtist("Salmo").setTextureName(ASSETS + "record_eclosion");
         recordChiptune1 = (new ItemEDRecord(recordChiptune1ID, ASSETS + "chiptune1", "A Ninja Among Oscillators")).setRecordArtist("Rolemusic").setTextureName(ASSETS + "record_chiptune1");
 		recordChiptune2 = (new ItemEDRecord(recordChiptune2ID, ASSETS + "chiptune2", "Happy Chiptunes")).setRecordArtist("Soniau").setTextureName(ASSETS + "record_chiptune2");
+		recordChiptune3 = (new ItemEDRecord(recordChiptune3ID, ASSETS + "chiptune3", "Cherryblossom")).setRecordArtist("Raptorface").setTextureName(ASSETS + "record_chiptune3");
         recordZabriskie1 = (new ItemEDRecord(recordZabriskie1ID, ASSETS + "zabriskie1", "The Temperature of the Air on the Bow of the Kaleetan")).setRecordArtist("Chris Zabriskie").setTextureName(ASSETS + "record_zabriskie1");
         recordZabriskie2 = (new ItemEDRecord(recordZabriskie2ID, ASSETS + "zabriskie2", "That Kid in Fourth Grade Who Really Liked the Denver Broncos")).setRecordArtist("Chris Zabriskie").setTextureName(ASSETS + "record_zabriskie2");
         recordRVegners = (new ItemEDRecord(recordRVegnersID, ASSETS + "rvegners", "Rolands Vegners")).setRecordArtist("Ergo Phizmiz & Margita Zalite").setTextureName(ASSETS + "record_rvegners");
@@ -96,6 +98,19 @@ public class ExtraDiscs
 	
 	//Rongmario Fixed his code himself :O (Thanks MineMaarten and Domi1819!)
 	    WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordDubstep1.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordDubstep2.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordClassical1.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordNightOwl.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordEclosion.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordChiptune1.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordChiptune2.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordChiptune3.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordZabriskie1.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordZabriskie2.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordRVegners.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordGoobyPls.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordpony1.itemID, 1, 0), 1, 8, 15);
+		WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(recordEerie1.itemID, 1, 0), 1, 8, 15);
         ChestGenHooks.addItem("dungeonChest", item);
 	    ChestGenHooks.addItem("strongholdCorridor", item);
 	    ChestGenHooks.addItem("strongholdCrossing", item);
@@ -106,6 +121,6 @@ public class ExtraDiscs
 
     private int getNextItemID(Configuration config, String label)
     {   //Did this so the internet ppl doesn't get confused <3
-        return config.get("item", label, nextItemID++).getInt() - 256; // Item IDs are automatically added by 256
+        return config.get("item", label, nextItemID++).getInt() - 256; // Item IDs are automatically added by 256, so 256 is taken away -_-
     }
 }
