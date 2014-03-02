@@ -105,10 +105,7 @@ public class ExtraDiscs
 		recordPony1 = (new ItemEDRecord(recordPony1ID, ASSETS + "pony1", "Love me Cheerilee")).setRecordArtist("The Living Tombstone & Wooden Toaster").setTextureName(ASSETS + "record_pony1");
 		recordEerie1 = (new ItemEDRecord(recordPony1ID, ASSETS + "eerie1", "One-Eyed Maestro")).setRecordArtist("Kevin MacLeod").setTextureName(ASSETS + "record_eerie1");
 
-        records = Arrays.asList(recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordChiptune3, recordEerie1);
-
-        MinecraftForge.EVENT_BUS.register(new SoundHandler());
-        MinecraftForge.EVENT_BUS.register(new MobDropHandler());
+        /*List*/ records = Arrays.asList(recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordChiptune3, recordEerie1);
 
         // Add in-game localization for tabED
         LanguageRegistry.instance().addStringLocalization("itemGroup." + MODID, NAME);

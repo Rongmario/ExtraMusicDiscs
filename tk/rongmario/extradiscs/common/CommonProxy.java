@@ -1,5 +1,10 @@
 package tk.rongmario.extradiscs.common;
 
-public class CommonProxy {
+import net.minecraftforge.common.MinecraftForge;
+import tk.rongmario.extradiscs.MobDropHandler;
 
+public class CommonProxy {
+	public void MobDropHandler() {
+    MinecraftForge.EVENT_BUS.register(new MobDropHandler());
+	}
 }

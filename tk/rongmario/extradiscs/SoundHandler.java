@@ -8,7 +8,6 @@ import net.minecraftforge.event.ForgeSubscribe;
 
 public class SoundHandler
 {
-    @SideOnly(Side.CLIENT)
     @ForgeSubscribe
     public void onSoundsLoaded(SoundLoadEvent event)
     {
