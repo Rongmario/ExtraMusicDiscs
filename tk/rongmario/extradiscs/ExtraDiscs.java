@@ -107,6 +107,9 @@ public class ExtraDiscs
 
         /*List*/ records = Arrays.asList(recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordChiptune3, recordEerie1);
 
+	proxy.SoundHandler();
+	proxy.MobDropHandler();
+
         // Add in-game localization for tabED
         LanguageRegistry.instance().addStringLocalization("itemGroup." + MODID, NAME);
 	
