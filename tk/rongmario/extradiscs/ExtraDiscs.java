@@ -12,8 +12,10 @@ import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ChestGenHooks;
 import tk.rongmario.extradiscs.MobDropHandler;
+import tk.rongmario.extradiscs.common.CommonProxy;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.ModMetadata;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
@@ -49,6 +51,9 @@ public class ExtraDiscs
 
     public static List<Item> records;
     private static Random rand = new Random();
+    
+    @SidedProxy(clientSide="tk.rongmario.extradiscs.client.ClientProxy", serverSide="tk.rongmario.extradiscs.common.CommonProxy")
+	public static CommonProxy proxy;
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
