@@ -8,15 +8,14 @@ import tk.rongmario.extradiscs.SoundHandler;
 import tk.rongmario.extradiscs.common.CommonProxy;
 
 public class ClientProxy extends CommonProxy {
-	@SideOnly(Side.CLIENT)
 	
-public void SoundHandler() {
+	@SideOnly(Side.CLIENT)
+	public void SoundHandler() {
 		MinecraftForge.EVENT_BUS.register(new SoundHandler()); 
-}
+	}
 		
-public void MobDropHandler() {
-		MinecraftForge.EVENT_BUS.register(new MobDropHandler());
-
+	public void MobDropHandler() {
+		super.MobDropHandler();
 	}
 }
 
