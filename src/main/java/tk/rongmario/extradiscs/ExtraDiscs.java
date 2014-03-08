@@ -86,7 +86,7 @@ public class ExtraDiscs
 		config.save();
 		
 		
-    }   //Will try make users make their own content pack, in 1.7 or 1.8
+    }   //Will try to make users make their own content pack, in 1.7 or 1.8
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)   {   
