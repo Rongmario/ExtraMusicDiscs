@@ -5,16 +5,19 @@ import java.util.List;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.entity.EntityEggInfo;
+import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemRecord;
 import net.minecraft.item.ItemStack;
+import net.minecraft.world.World;
 import net.minecraftforge.oredict.OreDictionary;
 
 import tk.rongmario.extradiscs.ExtraDiscs;
+import tk.rongmario.extradiscs.projectile.EntityMusicDiscs;
 
-public class ItemEDRecord extends ItemRecord
+public class ItemEDRecord<IIconRegister> extends ItemRecord
 {
     public final String recordDisplayName;
     public String recordArtist;
@@ -29,6 +32,23 @@ public class ItemEDRecord extends ItemRecord
         this.setHasSubtypes(true);
         
         
+    }
+    
+    public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer)
+    {
+        if (!par3EntityPlayer.capabilities.isCreativeMode)
+        {
+            --par1ItemStack.stackSize;
+        }
+
+        par2World.playSoundAtEntity(par3EntityPlayer, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
+
+        if (!par2World.isRemote)
+        {
+            par2World.spawnEntityInWorld(new EntityMusicDiscs(par2World, par3EntityPlayer));
+        }
+
+        return par1ItemStack;
     }
 
 	public void getSubItems(int unknown, ExtraDiscs tab, List subItems) 
@@ -56,6 +76,40 @@ public class ItemEDRecord extends ItemRecord
         this.recordArtist = par1Str;
         return this;
     }
+    
+   
+    //Attempting to have only 1 or 2 icons for music discs :P Partially worked...
+    
+   /* @SideOnly(Side.CLIENT)
+    public void registerIcons(IconRegister par1IconRegister) {
+            this.itemIcon = par1IconRegister.registerIcon("spawn_egg_overlay");
+    }
+
+    @SideOnly(Side.CLIENT)
+    public int getColorFromItemStack(ItemStack stack, int j) {
+            int k = stack.getItemDamage();
+
+            switch (k) {
+            case 0:
+                    return 0xff0000;
+            case 1:
+                    return 0xff00c5;
+            case 2:
+                    return 0x7a00ff;
+            case 3:
+                    return 17919;
+            case 4:
+                    return 65530;
+            case 5:
+                    return 65339;
+            case 6:
+                    return 0x88ff00;
+            case 7:
+                    return 0xffbc00;
+            }
+           
+            return 0;
+    }*/
     
     
 }

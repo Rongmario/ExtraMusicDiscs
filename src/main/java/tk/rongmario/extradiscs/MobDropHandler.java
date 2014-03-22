@@ -16,7 +16,7 @@ public class MobDropHandler {
 		if (event.source.getDamageType().equals("player") || event.source.getDamageType().equals("skeleton")) { //Checks for Damage Type.
 			Random rand = event.entityLiving.worldObj.rand; //Initializes double "rand"
 			if (event.entityLiving instanceof EntityZombie || event.entityLiving instanceof EntitySkeleton || event.entityLiving instanceof EntityCreeper || event.entityLiving instanceof EntityEnderman) { 
-				if (rand.nextDouble() <= 0.10D); //Example: (0.25D = 25%, 1D = 100%, etc.) - 0.45{69} FTW
+				if (rand.nextDouble() <= 0.02D); //Example: (0.25D = 25%, 1D = 100%, etc.) - 0.45{69} FTW
 					event.entityLiving.dropItem(ExtraDiscs.records.get(rand.nextInt(ExtraDiscs.records.size())).itemID, 1);
 			}
 	    }

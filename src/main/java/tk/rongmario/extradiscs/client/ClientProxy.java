@@ -5,7 +5,9 @@ import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import tk.rongmario.extradiscs.MobDropHandler;
 import tk.rongmario.extradiscs.SoundHandler;
+import tk.rongmario.extradiscs.TrollTick;
 import tk.rongmario.extradiscs.common.CommonProxy;
+import cpw.mods.fml.common.registry.TickRegistry;
 
 public class ClientProxy extends CommonProxy {
 	
@@ -18,6 +20,11 @@ public class ClientProxy extends CommonProxy {
 		super.MobDropHandler();
 	}
 	
+	public void TickRegistry() {
+		
+	TickRegistry.registerTickHandler(new TrollTick(), Side.CLIENT);
+	
+	}
 	
 }
 

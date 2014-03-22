@@ -30,7 +30,7 @@ public class EntityMusicDiscs extends EntityThrowable
     {
         if (par1MovingObjectPosition.entityHit != null)
         {
-            byte b0 = 2;
+            byte b0 = 5;
 
             par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)b0);
         }
