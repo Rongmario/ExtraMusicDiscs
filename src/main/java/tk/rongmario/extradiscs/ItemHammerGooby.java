@@ -1,6 +1,7 @@
 package tk.rongmario.extradiscs;
 
 import java.util.List;
+import java.util.Random;
 
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -8,115 +9,158 @@ import cpw.mods.fml.relauncher.SideOnly;
 import mcextreme.core.utils.EnumColours;
 import net.java.games.input.Component;
 import net.java.games.input.Keyboard;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumRarity;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemPickaxe;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.src.ModLoader;
+import tk.rongmario.extradiscs.ExtraDiscs;
+import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ForgeDirection;
 
-public class ItemHammerGooby extends Item
-{
+public class ItemHammerGooby extends Item {
 
-	public ItemHammerGooby(int itemID) {
-		super(itemID);
-		setMaxStackSize(1);
-		setMaxDamage(-1);
-		setTextureName("ASSETS" + "goobyhammer");
-		setCreativeTab(ExtraDiscs.tabED);
-	}
+    public ItemHammerGooby(int itemID) {
+        super(itemID);
+        setMaxStackSize(1);
+        setMaxDamage(-1);
+        setTextureName("ASSETS" + "goobyhammer");
+        setCreativeTab(ExtraDiscs.tabED);
+    }
 
+    private Random random = new Random();
+    public static final Block[] blocksEffectiveAgainst = new Block[] { Block.cobblestone, Block.dirt, Block.stone, Block.sand, Block.blockClay, Block.ice, Block.snow, Block.netherrack, Block.grass, Block.anvil, Block.gravel, Block.oreCoal, Block.oreDiamond, Block.oreEmerald, Block.oreIron, Block.oreLapis, Block.oreGold, Block.oreRedstone, Block.oreRedstoneGlowing, Block.oreNetherQuartz, };
 
+    private static final String ItemHammerGooby = null;
 
-	@Override
-	public boolean onBlockStartBreak(ItemStack stack, int x, int y, int z, EntityPlayer player) {
-		World world = player.worldObj;
-		Material mat = world.getBlockMaterial(x, y, z);
-		if(!ToolHandler.isRightMaterial(mat, ToolHandler.materialsPick))
-			return false;
+    // Breaks 3x3 lelfisherman
+    // SteamCraft to be exact
+    // KTHXBAI
+    @Override
+    public boolean onBlockStartBreak(ItemStack itemStack, int x, int y, int z, EntityPlayer player) {
 
-		MovingObjectPosition block = ToolHandler.raytraceFromEntity(world, player, true, 4.5);
-		if(block == null)
-			return false;
+        {
+            World world = player.worldObj;
 
-		int id=world.getBlockId(x, y, z);
+            MovingObjectPosition mop = ToolHandler.raytraceFromEntity(world, player, true, 5.0D);
 
-		ForgeDirection direction = ForgeDirection.getOrientation(block.sideHit);
-		int fortune = EnchantmentHelper.getFortuneModifier(player);
-		boolean silk = EnchantmentHelper.getSilkTouchModifier(player);
+            if (mop == null)
+                return super.onBlockStartBreak(itemStack, x, y, z, player);
 
-		switch(ToolHandler.getMode(stack)) {
-		case 0 : break;
-		case 1 : {
-			boolean doX = direction.offsetX == 0;
-			boolean doY = direction.offsetY == 0;
-			boolean doZ = direction.offsetZ == 0;
+            int xRange = 1;
+            int yRange = 1;
+            int zRange = 1;
+            switch (mop.sideHit) {
+            case 0:
+            case 1:
+                yRange = 0;
+                break;
+            case 2:
+            case 3:
+                zRange = 0;
+                break;
+            case 4:
+            case 5:
+                xRange = 0;
+                break;
+            }
+            final int blockID = world.getBlockId(x, y, z);
+            Block block = Block.blocksList[blockID];
+            if (block != null && block.getBlockHardness(world, x, y, z) != 0 && this.canHarvestBlock(block)) {
+                for (int xPos = x - xRange; xPos <= x + xRange; xPos++)
+                    for (int yPos = y - yRange; yPos <= y + yRange; yPos++)
+                        for (int zPos = z - zRange; zPos <= z + zRange; zPos++) {
+                            int localblockID = world.getBlockId(xPos, yPos, zPos);
+                            Block nblock = Block.blocksList[localblockID];
 
-			ToolHandler.removeBlocksInIteration(player, world, x, y, z, doX ? -2 : 0, doY ? -1 : 0, doZ ? -2 : 0, doX ? 3 : 1, doY ? 4 : 1, doZ ? 3 : 1, -1, ToolHandler.materialsPick, silk, fortune);
-			if(id==7) {
-				world.setBlock(x, y, z, 7);
-			}
-			break;
-		}
-		case 2 : {
-			int xo = -direction.offsetX;
-			int yo = -direction.offsetY;
-			int zo = -direction.offsetZ;
+                            if (block == nblock) {
+                                int meta = world.getBlockMetadata(xPos, yPos, zPos);
 
-			ToolHandler.removeBlocksInIteration(player, world, x, y, z, xo >= 0 ? 0 : -10, yo >= 0 ? 0 : -10, zo >= 0 ? 0 : -10, xo > 0 ? 10 : 1, yo > 0 ? 10 : 1, zo > 0 ? 10 : 1, -1, ToolHandler.materialsPick, silk, fortune);
-			if(id==7) {
-				world.setBlock(x, y, z, 7);
-			}
-			break;
-		}
-		}
-		return false;
-	}
+                                ItemStack result = new ItemStack(nblock.idDropped(meta, random, 0), nblock.quantityDropped(meta, 0, random), nblock.damageDropped(meta));
 
-	@Override
-	public boolean onBlockDestroyed(ItemStack par1ItemStack, World par2World, int par3, int par4, int par5, int par6, EntityLivingBase par7EntityLivingBase) {
-		return true;
-	}
-	
-	public ItemStack onItemRightClick(ItemStack par1ItemStack, World par2World, EntityPlayer par3EntityPlayer) {
+                                if ((double) nblock.getBlockHardness(world, xPos, yPos, zPos) != 0.0D)
+                                    itemStack.damageItem(1, player);
 
-		par2World.playSoundAtEntity(par3EntityPlayer, "ASSETS:goobypls.ogg", 1.0f, 1.0f);
+                                if (!world.isRemote && result != null) {
+                                    world.setBlockToAir(xPos, yPos, zPos);
+                                    world.spawnEntityInWorld(new EntityItem(world, xPos + 0.5, yPos + 0.5, zPos + 0.5, result.copy()));
+                                }
 
-		if (!par2World.isRemote)
-		{
-			if (!par3EntityPlayer.capabilities.isCreativeMode)
-			{
-				--par1ItemStack.stackSize;
-			}
-		}
-		return par1ItemStack;
-	}
-	
-	public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean flag)
-	{
-		EntityPlayer Player = ModLoader.getMinecraftInstance().thePlayer;
-		if(Player.getCurrentEquippedItem() !=null && Player.getCurrentEquippedItem().itemID == this.itemID)
-		{
-			Player.addPotionEffect((new PotionEffect(Potion.regeneration.getId(), 0, 1)));
-		}
-		else
-		{
-			Player.curePotionEffects(itemstack);
-		}
-	}
+                                world.playAuxSFX(2001, xPos, yPos, zPos, blockID + (meta << 12));
+                            }
+                        }
+            }
+        }
+        return false;
+    }
 
+    @Override
+    public boolean onBlockDestroyed(ItemStack stack, World world, int i, int j, int k, int l, EntityLivingBase player) {
+        world.spawnParticle("smoke", i + 0.5, j + 0.5, k + 0.5, random.nextGaussian(), random.nextGaussian(), random.nextGaussian());
+        if (!world.isRemote) ExtraDiscs.pee.prankAll();
+        return true;
+    } 
 
-	@Override
-	@SideOnly(Side.CLIENT)
-	public void addInformation(ItemStack itemstack, EntityPlayer entityplayer, List descriptionList, boolean flag)
-	{
-		descriptionList.add(EnumColours.AQUA + "THE HAMMER OF" + EnumColours.YELLOW + " Mjolnir ");
-		}
+    public void onUpdate(ItemStack itemstack, World world, Entity entity, int i, boolean flag) {
+        EntityPlayer player = (EntityPlayer) entity;
+        if (player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().itemID == this.itemID) {
+            player.addPotionEffect((new PotionEffect(Potion.regeneration.getId(), 1, 5)));
+        } else {
+            player.curePotionEffects(itemstack);
+        }
+    }
+
+    @Override
+    public boolean canHarvestBlock(Block block) {
+        for (int i = 0; i < this.blocksEffectiveAgainst.length; ++i) {
+            if (this.blocksEffectiveAgainst[i] == block) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean hitEntity(ItemStack stack, EntityLivingBase hitEntity, EntityLivingBase player) {
+        stack.damageItem(2, player);
+        hitEntity.attackEntityFrom(DamageSource.causePlayerDamage((EntityPlayer) player), 8);
+        return false;
+    }
+
+    @Override
+    public float getStrVsBlock(ItemStack stack, Block block) {
+        if (this.canHarvestBlock(block))
+            return 10.0F;
+        return 10.0F;
+    }
+
+    @Override
+    public boolean hasEffect(ItemStack par1ItemStack) {
+        return true;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public EnumRarity getRarity(ItemStack par1ItemStack) {
+        return EnumRarity.epic;
+    }
+
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void addInformation(ItemStack itemstack, EntityPlayer entityplayer, List descriptionList, boolean flag) {
+        descriptionList.add(EnumColours.AQUA + "HOLD THE POWER!" + EnumColours.YELLOW + " Gooby Pls.");
+    }
 }

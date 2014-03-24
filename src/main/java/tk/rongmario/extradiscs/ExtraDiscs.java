@@ -10,25 +10,34 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.EntityLightningBolt;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumToolMaterial;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.common.Configuration;
+import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.event.ForgeSubscribe;
 import net.minecraftforge.event.entity.player.ItemTooltipEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent.Action;
+import thaumcraft.api.ThaumcraftApi;
+import thaumcraft.api.aspects.Aspect;
+import thaumcraft.api.aspects.AspectList;
 import tk.rongmario.extradiscs.MobDropHandler;
 import tk.rongmario.extradiscs.common.CommonProxy;
+import tk.rongmario.extradiscs.network.PacketHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.ModMetadata;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 import cpw.mods.fml.relauncher.Side;
@@ -36,163 +45,199 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 @Mod(modid = ExtraDiscs.MODID, name = ExtraDiscs.NAME, version = ExtraDiscs.VERSION)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
-public class ExtraDiscs
-{
+public class ExtraDiscs {
     public static final String MODID = "extradiscs";
     public static final String NAME = "Extra Music Discs";
     public static final String VERSION = "1.0.6";
     public static final String ASSETS = MODID + ":";
     public static final String MCVERSION = "1.6.4";
 
-    @Mod.Instance(MODID)
+    public static PacketHandler pee; //69
+
+    @Instance(MODID)
     public static ExtraDiscs instance;
 
-    public static final CreativeTabs tabED = new CreativeTabs(MODID)
-    {
+    public static final CreativeTabs tabED = new CreativeTabs(MODID) {
         @SideOnly(Side.CLIENT)
-        public int getTabIconItemIndex()
-        {
+        public int getTabIconItemIndex() {
             return recordDubstep1.itemID;
         }
     };
-    
-    //Metadatas, for laters 0.0
-    /*private static final String[] multiRecordNames = { 
-    	"Dubstep 1", "Classical 1", "Night Owl", "Eclosion",
-    	"Chiptune 1", "Zabrieskie 1", "Zabrieskie 2", "RVegners",
-    	"Gooby Pls", "Pony 1", "Chiptune 2", "Chiptune 3",
-    	"Eerie 1"
-    };
-    */
+
+    // Metadatas, for laters 0.0
+    /*
+     * private static final String[] multiRecordNames = { "Dubstep 1",
+     * "Classical 1", "Night Owl", "Eclosion", "Chiptune 1", "Zabrieskie 1",
+     * "Zabrieskie 2", "RVegners", "Gooby Pls", "Pony 1", "Chiptune 2",
+     * "Chiptune 3", "Eerie 1", " };
+     */
 
     private int nextItemID = 22256;
+    public static boolean lol;
 
-    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID, recordChiptune3ID, recordEerie1ID, recordRucka1ID, itemHammerGoobyID;
-    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordChiptune3, recordEerie1, recordRucka1, itemHammerGooby;
+    public static int recordDubstep1ID, recordClassical1ID, recordNightOwlID, recordEclosionID, recordChiptune1ID, recordZabriskie1ID, recordZabriskie2ID, recordRVegnersID, recordGoobyPlsID, recordChiptune2ID, recordPony1ID, recordDubstep2ID, recordChiptune3ID, recordEerie1ID, recordRucka1ID, recordBossfight1ID, recordBossfight2ID, recordBossfight3ID, itemHammerGoobyID;
+    public static Item recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordChiptune3, recordEerie1, recordRucka1, recordBossfight1, recordBossfight2, recordBossfight3, itemHammerGooby;
 
     public static List<Item> records;
     private static Random rand = new Random();
-    
-    @SidedProxy(clientSide="tk.rongmario.extradiscs.client.ClientProxy", serverSide="tk.rongmario.extradiscs.common.CommonProxy")
-	public static CommonProxy proxy;
 
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event)
-    {
+    @SidedProxy(clientSide = "tk.rongmario.extradiscs.client.ClientProxy", serverSide = "tk.rongmario.extradiscs.common.CommonProxy")
+    public static CommonProxy proxy;
+
+    @EventHandler
+    public void preInit(FMLPreInitializationEvent event) {
         ModMetadata modMeta = event.getModMetadata();
-        modMeta.authorList = Arrays.asList(new String[]{"Rongmario", "general3214"});
+        modMeta.authorList = Arrays.asList(new String[] { "Rongmario", "general3214" });
         modMeta.autogenerated = false;
         modMeta.credits = "Music authors, OpenSourceMusic.com, FreeMusicArchive.org, SoundCloud";
         modMeta.description = "Mod that aims make Minecraft more musical! :3";
         modMeta.url = "https://github.com/Rongmario/ExtraMusicDiscs";
-		//modMeta.logoFile = "/assets/extradiscs/textures/logo/logo.png";
-        
-		//General3214's fail, didn't load and save configuration file >.<
-        //We need metadatas D:
+        // modMeta.logoFile = "/assets/extradiscs/textures/logo/logo.png";
+
+        // General3214's fail, didn't load and save configuration file >.<
+        // We need metadatas D:
         Configuration config = new Configuration(event.getSuggestedConfigurationFile());
-		config.load();
+        config.load();
         recordDubstep1ID = getNextItemID(config, "recordDubstep1ID");
-		recordDubstep2ID = getNextItemID(config, "recordDubstep2ID");
+        recordDubstep2ID = getNextItemID(config, "recordDubstep2ID");
         recordClassical1ID = getNextItemID(config, "recordClassical1ID");
         recordNightOwlID = getNextItemID(config, "recordNightOwlID");
         recordEclosionID = getNextItemID(config, "recordEclosionID");
         recordChiptune1ID = getNextItemID(config, "recordChiptune1ID");
-		recordChiptune2ID = getNextItemID(config, "recordChiptune2ID");
-		recordChiptune3ID = getNextItemID(config, "recordChiptune3ID");
+        recordChiptune2ID = getNextItemID(config, "recordChiptune2ID");
+        recordChiptune3ID = getNextItemID(config, "recordChiptune3ID");
         recordZabriskie1ID = getNextItemID(config, "recordZabriskie1ID");
         recordZabriskie2ID = getNextItemID(config, "recordZabriskie2ID");
         recordRVegnersID = getNextItemID(config, "recordRVegnersID");
-		recordGoobyPlsID = getNextItemID(config, "recordGoobyplsID");
-		recordPony1ID = getNextItemID(config, "recordPony1ID");
-		recordEerie1ID = getNextItemID(config, "recordEerie1ID");
-		recordRucka1ID = getNextItemID(config, "recordRuck1ID");
-		itemHammerGoobyID = getNextItemID(config, "itemHammerGoobyID");
-		config.save();
-		
-		GameRegistry.registerItem(itemHammerGooby, "itemHammerGooby");
-		
-		
-    }   //Will try make users make their own content pack, in 1.7 or 1.8
+        recordGoobyPlsID = getNextItemID(config, "recordGoobyplsID");
+        recordPony1ID = getNextItemID(config, "recordPony1ID");
+        recordEerie1ID = getNextItemID(config, "recordEerie1ID");
+        recordRucka1ID = getNextItemID(config, "recordRuck1ID");
+        recordBossfight1ID = getNextItemID(config, "recordBossfight1ID");
+        recordBossfight2ID = getNextItemID(config, "recordBossfight2ID");
+        recordBossfight3ID = getNextItemID(config, "recordBossfight3ID");
+        itemHammerGoobyID = getNextItemID(config, "itemHammerGoobyID");
+        // Dont disable it plz
+        lol = config.get("Lel", "PranksForSpoderman(DEFAULT ON)", true).getBoolean(true);
+        config.save();
 
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event)   {   
+    } // Will try make users make their own content pack, in 1.7 or 1.8
+
+    @EventHandler
+    public void init(FMLInitializationEvent event) {
         recordDubstep1 = (new ItemEDRecord(recordDubstep1ID, ASSETS + "dubstep1", "Double the Trouble")).setRecordArtist("3dNOW").setTextureName(ASSETS + "record_dubstep1");
-		recordDubstep2 = (new ItemEDRecord(recordDubstep2ID, ASSETS + "dubstep2", "Rock your Emotions 8Bit")).setRecordArtist("SestCH & Kitsune^2").setTextureName(ASSETS + "record_dubstep2");
+        recordDubstep2 = (new ItemEDRecord(recordDubstep2ID, ASSETS + "dubstep2", "Rock your Emotions 8Bit")).setRecordArtist("SestCH & Kitsune^2").setTextureName(ASSETS + "record_dubstep2");
         recordClassical1 = (new ItemEDRecord(recordClassical1ID, ASSETS + "classical1", "K. 525, Allegro")).setRecordArtist("W. A. Mozart").setTextureName(ASSETS + "record_classical1");
         recordNightOwl = (new ItemEDRecord(recordNightOwlID, ASSETS + "nightowl", "Night Owl")).setRecordArtist("Broke For Free").setTextureName(ASSETS + "record_nightowl");
         recordEclosion = (new ItemEDRecord(recordEclosionID, ASSETS + "eclosion", "Eclosion")).setRecordArtist("Salmo").setTextureName(ASSETS + "record_eclosion");
         recordChiptune1 = (new ItemEDRecord(recordChiptune1ID, ASSETS + "chiptune1", "A Ninja Among Oscillators")).setRecordArtist("Rolemusic").setTextureName(ASSETS + "record_chiptune1");
-		recordChiptune2 = (new ItemEDRecord(recordChiptune2ID, ASSETS + "chiptune2", "Happy Chiptunes")).setRecordArtist("Soniau").setTextureName(ASSETS + "record_chiptune2");
-		recordChiptune3 = (new ItemEDRecord(recordChiptune3ID, ASSETS + "chiptune3", "Cherryblossom")).setRecordArtist("Raptorface").setTextureName(ASSETS + "record_chiptune3");
+        recordChiptune2 = (new ItemEDRecord(recordChiptune2ID, ASSETS + "chiptune2", "Happy Chiptunes")).setRecordArtist("Soniau").setTextureName(ASSETS + "record_chiptune2");
+        recordChiptune3 = (new ItemEDRecord(recordChiptune3ID, ASSETS + "chiptune3", "Cherryblossom")).setRecordArtist("Raptorface").setTextureName(ASSETS + "record_chiptune3");
         recordZabriskie1 = (new ItemEDRecord(recordZabriskie1ID, ASSETS + "zabriskie1", "The Temperature of the Air on the Bow of the Kaleetan")).setRecordArtist("Chris Zabriskie").setTextureName(ASSETS + "record_zabriskie1");
         recordZabriskie2 = (new ItemEDRecord(recordZabriskie2ID, ASSETS + "zabriskie2", "That Kid in Fourth Grade Who Really Liked the Denver Broncos")).setRecordArtist("Chris Zabriskie").setTextureName(ASSETS + "record_zabriskie2");
         recordRVegners = (new ItemEDRecord(recordRVegnersID, ASSETS + "rvegners", "Rolands Vegners")).setRecordArtist("Ergo Phizmiz & Margita Zalite").setTextureName(ASSETS + "record_rvegners");
-		recordGoobyPls = (new ItemEDRecord(recordGoobyPlsID, ASSETS + "goobypls", "Gooby Pls")).setRecordArtist("Sim Gretina").setTextureName(ASSETS + "record_goobypls");
-		recordPony1 = (new ItemEDRecord(recordPony1ID, ASSETS + "pony1", "Love me Cheerilee")).setRecordArtist("The Living Tombstone & Wooden Toaster").setTextureName(ASSETS + "record_pony1");
-		recordEerie1 = (new ItemEDRecord(recordPony1ID, ASSETS + "eerie1", "One-Eyed Maestro")).setRecordArtist("Kevin MacLeod").setTextureName(ASSETS + "record_eerie1");
-		recordRucka1 = (new ItemEDRecord(recordRucka1ID, ASSETS + "rucka1", "Mine it Up")).setRecordArtist("Rucka Rucka Ali").setTextureName(ASSETS + "record_rucka1");
-		itemHammerGooby = (new ItemHammerGooby(itemHammerGoobyID).setTextureName(ASSETS + "goobyhammer")).setMaxDamage(-1).setUnlocalizedName("itemHammerGooby");
+        recordGoobyPls = (new ItemEDRecord(recordGoobyPlsID, ASSETS + "goobypls", "Gooby Pls")).setRecordArtist("Sim Gretina").setTextureName(ASSETS + "record_goobypls");
+        recordPony1 = (new ItemEDRecord(recordPony1ID, ASSETS + "pony1", "Love me Cheerilee")).setRecordArtist("The Living Tombstone & Wooden Toaster").setTextureName(ASSETS + "record_pony1");
+        recordEerie1 = (new ItemEDRecord(recordPony1ID, ASSETS + "eerie1", "One-Eyed Maestro")).setRecordArtist("Kevin MacLeod").setTextureName(ASSETS + "record_eerie1");
+        recordRucka1 = (new ItemEDRecord(recordRucka1ID, ASSETS + "rucka1", "Mine it Up")).setRecordArtist("Rucka Rucka Ali").setTextureName(ASSETS + "record_rucka1");
+        recordBossfight1 = (new ItemEDRecord(recordBossfight1ID, ASSETS + "bossfight1", "Jack Russel")).setRecordArtist("Bossfight").setTextureName(ASSETS + "record_bossfight1");
+        recordBossfight2 = (new ItemEDRecord(recordBossfight2ID, ASSETS + "bossfight2", "The Maze of Mayonnaise")).setRecordArtist("Bossfight").setTextureName(ASSETS + "record_bossfight2");
+        recordBossfight3 = (new ItemEDRecord(recordBossfight3ID, ASSETS + "bossfight3", "Milky Ways")).setRecordArtist("Bossfight").setTextureName(ASSETS + "record_bossfight3");
+        itemHammerGooby = (new ItemHammerGooby(itemHammerGoobyID).setTextureName(ASSETS + "goobyhammer")).setMaxDamage(-1).setUnlocalizedName("itemHammerGooby");
 
-        /*List*/ records = Arrays.asList(recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordChiptune3, recordEerie1, recordRucka1);
+        GameRegistry.registerItem(itemHammerGooby, "itemHammerGooby");
+        LanguageRegistry.addName(itemHammerGooby, "THE HAMMER OF GOOBY");
 
-	proxy.SoundHandler();
-	proxy.MobDropHandler();
-	
-	MinecraftForge.EVENT_BUS.register(this);
-	
-	
+        /* List */records = Arrays.asList(recordDubstep1, recordClassical1, recordNightOwl, recordEclosion, recordChiptune1, recordZabriskie1, recordZabriskie2, recordRVegners, recordGoobyPls, recordChiptune2, recordPony1, recordDubstep2, recordChiptune3, recordEerie1, recordRucka1, recordBossfight1, recordBossfight2, recordBossfight3);
+
+        AspectList plz = new AspectList();
+        AspectList hammer = new AspectList();
+
+        plz.aspects.put(Aspect.AURA, 25);
+        plz.aspects.put(Aspect.TAINT, 8);
+        plz.aspects.put(Aspect.EXCHANGE, 9);
+        plz.aspects.put(Aspect.CRYSTAL, 6);
+        plz.aspects.put(Aspect.GREED, 20);
+        plz.aspects.put(Aspect.DARKNESS, 1);
+        plz.aspects.put(Aspect.DEATH, 5);
+        plz.aspects.put(Aspect.VOID, 10);
+        plz.aspects.put(Aspect.ENERGY, 15);
+        plz.aspects.put(Aspect.MAGIC, 16);
+        plz.aspects.put(Aspect.SOUL, 10);
+
+        hammer.aspects.put(Aspect.GREED, 30);
+        hammer.aspects.put(Aspect.TAINT, 20);
+        hammer.aspects.put(Aspect.CRYSTAL, 21);
+        hammer.aspects.put(Aspect.MAGIC, 5);
+        hammer.aspects.put(Aspect.DEATH, 19);
+        hammer.aspects.put(Aspect.VOID, 14);
+        hammer.aspects.put(Aspect.METAL, 20);
+        hammer.aspects.put(Aspect.SOUL, 23);
+        hammer.aspects.put(Aspect.BEAST, 12);
+        hammer.aspects.put(Aspect.TOOL, 25);
+        hammer.aspects.put(Aspect.ENTROPY, 31);
+        hammer.aspects.put(Aspect.WEAPON, 12);
+        hammer.aspects.put(Aspect.MINE, 29);
+
+        ThaumcraftApi.registerObjectTag(itemHammerGooby.itemID, -1, hammer);
+        
+        for (int i = 0; i < records.size(); i++)
+            ThaumcraftApi.registerObjectTag(records.get(i).itemID, -1, plz);
+
+        proxy.SoundHandler();
+        proxy.MobDropHandler();
+
+        MinecraftForge.EVENT_BUS.register(this);
 
         // Add in-game localization for tabED
         LanguageRegistry.instance().addStringLocalization("itemGroup." + MODID, NAME);
-	
-	    //Rongmario Fixed his code himself :O (Thanks MineMaarten and Domi1819!)
-	    WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(records.get(rand.nextInt(records.size()))), 1, 3, 12);
+
+        // Rongmario Fixed his code himself :O (Thanks MineMaarten and
+        // Domi1819!)
+        WeightedRandomChestContent item = new WeightedRandomChestContent(new ItemStack(records.get(rand.nextInt(records.size()))), 1, 3, 36);
         ChestGenHooks.addItem("dungeonChest", item);
-	    ChestGenHooks.addItem("strongholdCorridor", item);
-	    ChestGenHooks.addItem("strongholdCrossing", item);
+        ChestGenHooks.addItem("strongholdCorridor", item);
+        ChestGenHooks.addItem("strongholdCrossing", item);
         ChestGenHooks.addItem("pyramidDesertyChest", item);
         ChestGenHooks.addItem("pyramidJungleChest", item);
         ChestGenHooks.addItem("villageBlacksmith", item);
-        
-        WeightedRandomChestContent gooby = new WeightedRandomChestContent(new ItemStack(ExtraDiscs.itemHammerGooby), 1, 1, 5);
+
+        WeightedRandomChestContent gooby = new WeightedRandomChestContent(new ItemStack(ExtraDiscs.itemHammerGooby), 1, 1, 7);
         ChestGenHooks.addItem("dungeonChest", gooby);
-	    ChestGenHooks.addItem("strongholdCorridor", gooby);
-	    ChestGenHooks.addItem("strongholdCrossing", gooby);
+        ChestGenHooks.addItem("strongholdCorridor", gooby);
+        ChestGenHooks.addItem("strongholdCrossing", gooby);
         ChestGenHooks.addItem("pyramidDesertyChest", gooby);
         ChestGenHooks.addItem("pyramidJungleChest", gooby);
         ChestGenHooks.addItem("villageBlacksmith", gooby);
+
+        pee = new PacketHandler();
+        NetworkRegistry.instance().registerChannel(pee, "packetED");
     }
 
-    private int getNextItemID(Configuration config, String label)
-    {   
-        return config.get("item", label, nextItemID++).getInt() - 256; // Item IDs are automatically added by 256, so 256 is taken away -_-
+    private int getNextItemID(Configuration config, String label) {
+        return config.get("record" + "item", label, nextItemID++).getInt() - 256; // Item
     }
-    
-    
+
     @ForgeSubscribe
-    public void getSpodermanItemTooltip(ItemTooltipEvent event)
-    {
-      if (event.entityPlayer.username.toLowerCase().equals("Da_Blackman")) {
-        event.toolTip.add("Spoderman Sux BALLZ");
-      }
+    public void getSpodermanItemTooltip(ItemTooltipEvent event) {
+        if (event.entityPlayer.username.toLowerCase().equals("Da_Blackman")) {
+            event.toolTip.add("You suck balls <3");
+        }
     }
-    
+
     @ForgeSubscribe
-    public void getSpodermanPranks(PlayerInteractEvent event)
-    {
-    	if (event.entityPlayer.username.toLowerCase().equals("Da_Blackman")) {
-    		event.entityPlayer.attackEntityFrom(DamageSource.magic, 1000);
-    	}
+    public void getSpodermanPranks(PlayerInteractEvent event) {
+        if ((lol) && ((event.entityPlayer != null) && (event.entityPlayer.username.toLowerCase().equals("Da_Blackman")))) {
+            event.entityPlayer.attackEntityFrom(DamageSource.magic, 1000);
+        }
 
     }
 
-    
     @ForgeSubscribe
-    public void getMorkyItemTooltip(ItemTooltipEvent event)
-    {
-      if (event.entityPlayer.username.toLowerCase().equals("domi1819")) {
-        event.toolTip.add("Morky Ples");
-      }
+    public void getBogsItemTooltip(ItemTooltipEvent event) {
+        if (event.entityPlayer.username.toLowerCase().equals("Frothiny")) {
+            event.toolTip.add("Bogs Ples");
+        }
     }
-    
+
 }

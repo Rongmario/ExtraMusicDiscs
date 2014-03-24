@@ -27,10 +27,15 @@ public class SoundHandler
 		addOggToStreaming(manager, "pony1");
 		addOggToStreaming(manager, "eerie1");
 		addOggToStreaming(manager, "rucka1");
+		addOggToStreaming(manager, "bossfight1");
+		addOggToStreaming(manager, "bossfight2");
+		addOggToStreaming(manager, "bossfight3");
+		addOggToStreaming(manager, "goobyshort");
     }
 
     private void addOggToStreaming(SoundManager manager, String fileName)
     {
         manager.addStreaming(ExtraDiscs.ASSETS + fileName + ".ogg");
+        manager.soundPoolSounds.addSound(ExtraDiscs.MODID + ":goobyshort.ogg");
     }
 }
