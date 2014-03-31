@@ -22,6 +22,8 @@ public class ItemEDRecord<IIconRegister> extends ItemRecord
     public final String recordDisplayName;
     public String recordArtist;
   
+    @SideOnly(Side.CLIENT)
+    private Icon overlay;
 
     public ItemEDRecord(int id, String sound, String name)
     {
@@ -77,39 +79,48 @@ public class ItemEDRecord<IIconRegister> extends ItemRecord
         return this;
     }
     
-   
-    //Attempting to have only 1 or 2 icons for music discs :P Partially worked...
+    @SideOnly(Side.CLIENT)
+    public boolean requiresMultipleRenderPasses()
+    {
+        return true;
+    }
     
-   /* @SideOnly(Side.CLIENT)
+    @SideOnly(Side.CLIENT)
     public void registerIcons(IconRegister par1IconRegister) {
-            this.itemIcon = par1IconRegister.registerIcon("spawn_egg_overlay");
+        this.itemIcon = par1IconRegister.registerIcon("TEXTURE THAT WONT BE COLOURED");
+        this.overlay = par1IconRegister.registerIcon("TEXTURE THAT WILL BE COLOURED");
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public Icon getIconFromDamageForRenderPass(int meta, int pass)
+    {
+    	return pass > 0 ? overlay : super.getIconFromDamageForRenderPass(meta, pass);
     }
 
     @SideOnly(Side.CLIENT)
-    public int getColorFromItemStack(ItemStack stack, int j) {
-            int k = stack.getItemDamage();
-
-            switch (k) {
-            case 0:
-                    return 0xff0000;
-            case 1:
-                    return 0xff00c5;
-            case 2:
-                    return 0x7a00ff;
-            case 3:
-                    return 17919;
-            case 4:
-                    return 65530;
-            case 5:
-                    return 65339;
-            case 6:
-                    return 0x88ff00;
-            case 7:
-                    return 0xffbc00;
-            }
-           
-            return 0;
-    }*/
-    
-    
+    public int getColorFromItemStack(ItemStack stack, int renderPass)
+    {
+    	if(renderPass == 0)
+    	{
+    	    switch (stack.getItemDamage()) {
+                case 0:
+                        return 0xff0000;
+                case 1:
+                        return 0xff00c5;
+                case 2:
+                        return 0x7a00ff;
+                case 3:
+                        return 17919;
+                case 4:
+                        return 65530;
+                case 5:
+                        return 65339;
+                case 6:
+                        return 0x88ff00;
+                case 7:
+                        return 0xffbc00;
+                }
+    	}
+    	return super.getColorFromItemStack(stack, renderPass);
+    }
 }
